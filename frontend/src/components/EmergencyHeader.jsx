@@ -5,7 +5,7 @@ function EmergencyHeader() {
     <header className="flex overflow-hidden flex-col items-center px-20 pt-6 pb-28 font-bold text-white bg-green-400 max-md:px-5 max-md:pb-24 max-md:text-4xl">
       <section className="flex flex-col w-full max-w-[1512px] max-md:max-w-full">
         <h1 className="self-center ml-8 max-md:max-w-full text-4xl">
-          EMRGENCY AND MENTAL-WELL BEING
+          EMERGENCY AND MENTAL-WELL BEING
         </h1>
         <img 
           loading="lazy" 

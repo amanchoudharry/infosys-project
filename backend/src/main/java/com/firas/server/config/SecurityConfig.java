@@ -18,7 +18,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // Disable CSRF
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/register", "/api/login","/api/contacts","/api/contacts/{id}").permitAll() // Public endpoints
+                        .requestMatchers("/api/register", "/api/login","/api/contacts","/api/contacts/{id}","/api/send-sos").permitAll() // Public endpoints
                         .requestMatchers("/api/admin/**").hasAuthority("admin") // Admin-only endpoints
                         .requestMatchers("/api/professional/**").hasAuthority("professional") // Professional-only endpoints
                         .requestMatchers("/api/user/**").hasAuthority("user") // User-only endpoints

@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
 import Logo from '../../assets/infosys-main.png';
 import Arrow from '../../assets/icons/right-arrow.png';
 import { Link } from 'react-router-dom';
@@ -10,9 +11,13 @@ import Police from '../../assets/police.png';
 import Ambulance from '../../assets/ambulance.png';
 import Fire from '../../assets/fire.png';
 import EmergencyContactForm from '../../components/EmergencyContactForm';
+import { ToastContainer, toast } from 'react-toastify';  //
+import 'react-toastify/dist/ReactToastify.css';
 const Emergency = () => {
     const navigate = useNavigate();
     const location = useLocation();
+
+     const [loading, setLoading] = useState(false);
 
     const fadeInVariant = {
         hidden: { opacity: 0, y: 20 },
@@ -32,6 +37,39 @@ const Emergency = () => {
         toast.success('Logged out successfully!');
         navigate('/login');
     };
+
+    const sendSOS = async () => {
+            setLoading(true);  // Set loading to true when request starts
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(async (position) => {
+                    const { latitude, longitude } = position.coords;
+
+                    try {
+                        // Send SOS request with latitude and longitude
+                        const response = await axios.post('http://localhost:8080/api/send-sos', {
+                            latitude,
+                            longitude,
+                        });
+
+                        setLoading(false);  // Set loading to false when request completes
+                        toast.success('SOS sent successfully!');  // Show success toaster
+                        console.log(response.data);  // Handle success response
+                    } catch (error) {
+                        setLoading(false);  // Set loading to false in case of error
+                        toast.error('Failed to send SOS. Please try again!');  // Show error toaster
+                        console.error("Error sending SOS", error);
+                    }
+                }, (error) => {
+                    setLoading(false);  // Set loading to false on error
+                    toast.error('Location access denied or error in fetching location.');  // Show error toaster
+                    alert("Location access denied or error in fetching location.");
+                });
+            } else {
+                setLoading(false);  // Set loading to false if geolocation is not supported
+                toast.error('Geolocation is not supported by this browser.');  // Show error toaster
+                alert("Geolocation is not supported by this browser.");
+            }
+        };
 
     return (
         <div className='main'>
@@ -90,11 +128,18 @@ const Emergency = () => {
                         </div>
                     </div>
                 </div>
-                <button className='bg-red-600 text-white p-20 text-4xl flex flex-col gap-5 items-center py-28 rounded-xl'>
-                    <p>SOS Alert</p>
+                <button
+                    onClick={sendSOS}
+                    className="bg-red-600 text-white p-16 text-4xl flex flex-col gap-5 items-center py-28 rounded-xl transform transition-transform duration-200 ease-in-out hover:scale-105 active:scale-100 disabled:opacity-50"
+                    disabled={loading}
+                >
+                    <p>{loading ?'Sending...': 'Send '}<span className="font-bold">SOS</span> To</p>
                     <div className='flex items-center gap-3'>
-                        <i class="fa-solid fa-phone"></i>
-                        <p>Emergency Contact </p>
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <p>Emergency Contacts</p>
+                    </div>
+                    <div className='flex items-center gap-3'>
+                        <p>with Location </p>
                     </div>
                 </button>
             </motion.section>
