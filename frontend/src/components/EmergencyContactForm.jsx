@@ -69,6 +69,14 @@ const EmergencyContactForm = () => {
         setEditId(id);
     };
 
+    const handleCall = (phone) => {
+        if (phone) {
+            window.location.href = `tel:${phone}`;
+        } else {
+            toast.error("Phone number is not available");
+        }
+    };
+
     const handleDelete = async (id) => {
         try {
             await axios.delete(`http://localhost:8080/api/contacts/${id}`);
@@ -123,7 +131,7 @@ const EmergencyContactForm = () => {
                                         </p>
                                     </div>
                                     <div className="flex items-center gap-3">
-                                        <button className="text-3xl mx-5 text-green-800">
+                                        <button onClick={() => handleCall(contact.phone)}className="text-3xl mx-5 text-green-800">
                                             <i className="fa-solid fa-phone"></i>
                                         </button>
                                         <button
