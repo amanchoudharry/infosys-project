@@ -114,16 +114,16 @@ const Emergency = () => {
                         What is Your Emergency?
                     </h1>
                     <div className='flex items-center gap-5'>
-                        <div className='flex flex-col gap-2 items-center'>
+                        <div className='flex flex-col gap-2 items-center ' onClick={() => window.location.href = 'tel:100'}>
                             <img src={Police} alt="police" />
                             <h1 className='font-semibold text-2xl'>Police</h1>
                         </div>
-                        <div className='flex flex-col gap-2 items-center'>
-                            <img src={Fire} alt="police" />
+                        <div className='flex flex-col gap-2 items-center' onClick={() => window.location.href = 'tel:101'}>
+                            <img src={Fire} alt="fire" />
                             <h1 className='font-semibold text-2xl'>Fire</h1>
                         </div>
-                        <div className='flex flex-col gap-2 items-center'>
-                            <img src={Ambulance} alt="police" />
+                        <div className='flex flex-col gap-2 items-center' onClick={() => window.location.href = 'tel:102'}>
+                            <img src={Ambulance} alt="ambulance" />
                             <h1 className='font-semibold text-2xl'>Ambulance</h1>
                         </div>
                     </div>
