@@ -171,7 +171,7 @@ const EmergencyContactForm = () => {
                             />
                         </div>
                         <div>
-                            <label className="block text-gray-600 mb-1">Phone</label>
+                            <label className="block text-gray-600 mb-1">Phone with Country Code</label>
                             <input
                                 type="tel"
                                 name="phone"
