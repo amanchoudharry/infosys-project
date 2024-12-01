@@ -46,9 +46,11 @@ public class AuthController {
                 return ResponseEntity.status(404).body("No emergency contacts found.");
             }
 
-                String messageBody = String.format(
-                        "SOS! You are my Emergency Contact and I Have an Emergency at Location: Latitude: %s, Longitude: %s. Please assist immediately.",
-                        sosRequest.getLatitude(), sosRequest.getLongitude());
+            String messageBody = String.format(
+                    "SOS! You are my Emergency Contact and I have an emergency at Location: Latitude: %s, Longitude: %s. Please assist immediately. " +
+                            "View the location on the map: https://www.google.com/maps?q=%s,%s",
+                    sosRequest.getLatitude(), sosRequest.getLongitude(),
+                    sosRequest.getLatitude(), sosRequest.getLongitude());
             // Loop through all emergency contacts and send an SMS to each one
             for (EmergencyContact contact : contacts) {
 
