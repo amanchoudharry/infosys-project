@@ -60,6 +60,17 @@
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.36</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.twilio.sdk</groupId>
+			<artifactId>twilio</artifactId>
+			<version>8.32.0</version>
+		</dependency>
 	</dependencies>
 
 
