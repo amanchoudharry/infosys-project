@@ -72,6 +72,7 @@ const Emergency = () => {
         };
 
     return (
+
         <div className='main'>
             {/* Navbar */}
             <nav className="flex justify-between items-center px-10 fade-in sticky bg-[#b7fdd3] top-0 z-50">
@@ -109,20 +110,20 @@ const Emergency = () => {
                 className="ml-14 mt-5 rounded-2xl flex justify-start gap-5 items-center"
                 variants={fadeInVariant}
             >
-                <div className="m-10 flex flex-col gap-10 shadow-xl shadow-[#4CAB72] bg-[#71d699] w-[50%] p-10 rounded-xl">
+                <div className="m-10 flex flex-col gap-10 shadow-xl shadow-[#4CAB72] bg-[#71d699]  w-[50%] p-10 rounded-xl">
                     <h1 className="text-4xl font-bold text-center">
                         What is Your Emergency?
                     </h1>
                     <div className='flex items-center gap-5'>
-                        <div className='flex flex-col gap-2 items-center ' onClick={() => window.location.href = 'tel:100'}>
+                        <div className='flex flex-col gap-2 items-center rounded-md transition-transform transform hover:scale-95 ' onClick={() => window.location.href = 'tel:100'}>
                             <img src={Police} alt="police" />
                             <h1 className='font-semibold text-2xl'>Police</h1>
                         </div>
-                        <div className='flex flex-col gap-2 items-center' onClick={() => window.location.href = 'tel:101'}>
+                        <div className='flex flex-col gap-2 items-center rounded-md transition-transform transform hover:scale-95' onClick={() => window.location.href = 'tel:101'}>
                             <img src={Fire} alt="fire" />
                             <h1 className='font-semibold text-2xl'>Fire</h1>
                         </div>
-                        <div className='flex flex-col gap-2 items-center' onClick={() => window.location.href = 'tel:102'}>
+                        <div className='flex flex-col gap-2 items-center rounded-md transition-transform transform hover:scale-95' onClick={() => window.location.href = 'tel:102'}>
                             <img src={Ambulance} alt="ambulance" />
                             <h1 className='font-semibold text-2xl'>Ambulance</h1>
                         </div>
@@ -130,7 +131,7 @@ const Emergency = () => {
                 </div>
                 <button
                     onClick={sendSOS}
-                    className="bg-red-600 text-white p-16 text-4xl flex flex-col gap-5 items-center py-28 rounded-xl transform transition-transform duration-200 ease-in-out hover:scale-105 active:scale-100 disabled:opacity-50"
+                    className="bg-red-600 text-white p-16 text-4xl flex flex-col gap-5 items-center py-28 rounded-xl transform transition-transform duration-200 ease-in-out hover:scale-105 hover:bg-red-700 active:scale-100 disabled:opacity-50"
                     disabled={loading}
                 >
                     <p>{loading ?'Sending...': 'Send '}<span className="font-bold">SOS</span> To</p>

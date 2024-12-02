@@ -18,18 +18,12 @@ const EmergencyTable = () => {
         { name: "Kisan Call Centre", contact: "1551" },
     ];
 
-    const handleContactClick = async (contact) => {
-        try {
-            // Make an API call to the backend to initiate the call
-            const response = await axios.post("http://localhost:8080/api/call", {
-                contact,
-            });
-            if (response) {
-                toast.success(`Call initiated to ${contact}: ${response.data.message}`);
-            }
-        } catch (error) {
-            console.error("Error initiating call", error);
-            toast.error("Failed to initiate call. Please try again.");
+    const handleContactClick = (contact) => {
+        if (contact) {
+            // Use the tel: URI scheme to initiate a phone call
+            window.location.href = `tel:${contact}`;
+        } else {
+            toast.error("Invalid contact number.");
         }
     };
 
@@ -55,13 +49,13 @@ const EmergencyTable = () => {
                             <tr
                                 key={index}
                                 className="transition-transform duration-300 hover:bg-green-100 hover:shadow-lg transform hover:scale-105"
+                                onClick={() => handleContactClick(item.contact)}
                             >
                                 <td className="px-14 py-4 border-b border-gray-200">
                                     {item.name}
                                 </td>
                                 <td
                                     className="px-6 py-4 border-b border-gray-200 cursor-pointer text-blue-600 underline"
-                                    onClick={() => handleContactClick(item.contact)}
                                 >
                                     {item.contact}
                                 </td>
