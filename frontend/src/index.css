@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+body{
+    font-family: "Lexend Deca", sans-serif;
+}
+.main{
+    background-image: linear-gradient(#B6FCD2,#BBFFD6,#4CAB72);
+}
+/* Active nav item styles */
+.nav-item {
+    position: relative;
+    padding-bottom: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.nav-item.active {
+    font-weight: bold;
+    color: #fff;
+    border-bottom: 2px solid white;
+}
+
+.nav-item:hover {
+    transform: scale(1.1);
+}
+
+.nav-item::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 0;
+    background: white;
+    transition: width 0.3s ease-in-out;
+}
+
+.nav-item:hover::after {
+    width: 100%;
+}
