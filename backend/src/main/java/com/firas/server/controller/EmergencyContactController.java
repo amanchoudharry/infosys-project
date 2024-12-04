@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-
 @RequestMapping("/api/contacts")
 @CrossOrigin
 public class EmergencyContactController {
@@ -18,17 +17,24 @@ public class EmergencyContactController {
     @Autowired
     private EmergencyContactService service;
 
-    @GetMapping
-    public ResponseEntity<List<EmergencyContact>> getAllContacts() {
-        return ResponseEntity.ok(service.getAllContacts());
+    // Fetch all emergency contacts for a specific user by userId
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<EmergencyContact>> getAllContactsByUserId(@PathVariable String userId) {
+        List<EmergencyContact> contacts = service.getAllContactsByUserId(userId);
+        if (contacts.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(contacts);
     }
 
+    // Create a new emergency contact for a specific user
     @PostMapping
     public ResponseEntity<EmergencyContact> createContact(@Valid @RequestBody EmergencyContact contact) {
         EmergencyContact createdContact = service.createContact(contact);
-        return ResponseEntity.ok(createdContact);
+        return ResponseEntity.status(201).body(createdContact);
     }
 
+    // Update an existing emergency contact
     @PutMapping("/{id}")
     public ResponseEntity<EmergencyContact> updateContact(@PathVariable String id,
                                                           @Valid @RequestBody EmergencyContact contact) {
@@ -37,6 +43,7 @@ public class EmergencyContactController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
+    // Delete an emergency contact by its ID
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteContact(@PathVariable String id) {
         service.deleteContact(id);
