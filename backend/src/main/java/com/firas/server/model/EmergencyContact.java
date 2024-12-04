@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class EmergencyContact {
     @Id
     private String id;
+    private String userId;
 
     @NotBlank(message = "Name is required")
     private String name;

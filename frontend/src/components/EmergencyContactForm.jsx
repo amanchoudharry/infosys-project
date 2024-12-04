@@ -4,8 +4,9 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const EmergencyContactForm = () => {
-    const userId = sessionStorage.getItem('userId');
-    const username = sessionStorage.getItem('username');
+    const userId = sessionStorage.getItem('userId');  // Get userId from sessionStorage
+    const username = sessionStorage.getItem('username');  // Get username from sessionStorage
+
     const [formVisible, setFormVisible] = useState(false);
     const [contacts, setContacts] = useState([]);
     const [formData, setFormData] = useState({
@@ -23,7 +24,7 @@ const EmergencyContactForm = () => {
 
     const fetchContacts = async () => {
         try {
-            const response = await axios.get("http://localhost:8080/api/contacts");
+            const response = await axios.get(`http://localhost:8080/api/contacts/${userId}`);  // Fetch contacts for specific user
             setContacts(response.data);
         } catch (error) {
             toast.error("Error fetching contacts");
@@ -46,8 +47,8 @@ const EmergencyContactForm = () => {
                 });
                 toast.success("Contact updated successfully");
             } else {
-                // Add new contact
-                await axios.post("http://localhost:8080/api/contacts", formData, {
+                // Add new contact with userId
+                await axios.post("http://localhost:8080/api/contacts", { ...formData, userId }, {
                     headers: { "Content-Type": "application/json" },
                 });
                 toast.success("Contact added successfully");

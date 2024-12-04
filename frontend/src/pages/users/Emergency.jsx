@@ -16,6 +16,13 @@ import 'react-toastify/dist/ReactToastify.css';
 const Emergency = () => {
     const navigate = useNavigate();
     const location = useLocation();
+//     const userId = sessionStorage.getItem('userId');
+
+//     const getUserIdFromCookies = () => {
+//         const match = document.cookie.match(new RegExp('(^| )userId=([^;]+)'));
+//         return match ? match[2] : null;
+//     };
+
     const username = sessionStorage.getItem('username');
 
      const [loading, setLoading] = useState(false);
@@ -43,15 +50,19 @@ const Emergency = () => {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(async (position) => {
                     const { latitude, longitude } = position.coords;
+                    const userId = sessionStorage.getItem('userId');
+                    console.log(userId)
 
                     try {
                         // Send SOS request with latitude and longitude
                         const response = await axios.post('http://localhost:8080/api/send-sos', {
                             latitude,
                             longitude,
-                            username
-                        });
-
+                            username,
+                            userId
+                        }, {
+                             withCredentials: true  // Ensure the cookie is sent with the request
+                         });
                         setLoading(false);  // Set loading to false when request completes
                         toast.success('SOS sent successfully!');  // Show success toaster
                         console.log(response.data);  // Handle success response
