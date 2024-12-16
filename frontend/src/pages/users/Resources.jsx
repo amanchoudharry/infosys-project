@@ -11,7 +11,7 @@ import Footer from '../../components/Footer';
 import BetterSleep from '../../components/resources/BetterSleep';
 import Nutrition from '../../components/resources/Nutrition';
 import Emotional from '../../components/resources/Emotional';
-import Theraphy from '../../components/resources/Theraphy';
+import Therapy from '../../components/resources/Theraphy';
 
 const fadeInVariant = {
   hidden: { opacity: 0, y: 20 },
@@ -50,10 +50,12 @@ const Resources = () => {
   const resourceList = [
     { name: "Treatment for Anxiety" },
     { name: "Treatment for Depression" },
-    { name: "Better Sleep" },
-    { name: "Nutrient and Supplements" },
-    { name: "Emotional Well-Being" },
-    { name: "Navigating Therapy" }
+    { name: "Treatment for ADHD" },
+    { name: "Treatment for Bipolar" },
+    { name: "Treatment for Addiction" },
+    { name: "Treatment for PSTD" },
+    { name: "Treatment for Disorder" },
+    { name: "Treatment for Postmartum Depression" }
   ]
 
 
@@ -143,26 +145,26 @@ const Resources = () => {
         </div>
         <motion.div className='w-[68%] -ml-24 p-5 pb-10'>
           <div className='flex flex-col justify-center items-center'>
-            <h1 className='text-2xl -ml-28 mt-5 font-semibold'>BETTER SLEEP</h1>
+            <h1 className='text-2xl -ml-28 mt-5 font-semibold'>Treatment for ADHD</h1>
             <div className='border-t-2 border-gray-800 border-opacity-50  w-full h-1 text-center mt-2 ml-[70%]'></div>
             <BetterSleep />
           </div>
           <div className='flex flex-col justify-center items-center'>
-            <h1 className='text-2xl ml-20 mt-16 font-semibold'>NUTRITION & SUPLLEMENTS</h1>
+            <h1 className='text-2xl ml-20 mt-16 font-semibold'>Treatment for Bipolar</h1>
             <div className='border-t-2 border-gray-800 border-opacity-50  w-full h-1 text-center mt-2 ml-[70%]'></div>
             <Nutrition />
           </div>
         </motion.div>
         <motion.div className='w-[68%] -ml-24 p-5 pb-10'>
           <div className='flex flex-col justify-center items-center'>
-            <h1 className='text-2xl ml-4 mt-5 font-semibold'>EMOTIONAL WELL-BEING</h1>
+            <h1 className='text-2xl ml-4 mt-5 font-semibold'>Treatment for Addiction</h1>
             <div className='border-t-2 border-gray-800 border-opacity-50  w-full h-1 text-center mt-2 ml-[70%]'></div>
             <Emotional />
           </div>
           <div className='flex flex-col justify-center items-center'>
-            <h1 className='text-2xl -ml-44 mt-16 font-semibold'>THERAPY</h1>
+            <h1 className='text-2xl -ml-44 mt-16 font-semibold'>Treatment for PSTD</h1>
             <div className='border-t-2 border-gray-800 border-opacity-50  w-full h-1 text-center mt-2 ml-[70%]'></div>
-            <Theraphy />
+            <Therapy />
           </div>
         </motion.div>
       </motion.div>

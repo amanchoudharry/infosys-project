@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AnxietyTestService {
@@ -13,14 +14,20 @@ public class AnxietyTestService {
     @Autowired
     private AnxietyTestResultRepository repository;
 
-    public AnxietyTestResult processAndSaveTestResult(List<Integer> responses) {
-        double averageScore = responses.stream().mapToInt(Integer::intValue).average().orElse(0.0);
-        String status = averageScore < 5 ? "Below Average and Anxiety Person" : "Above Average and Needs Improvement";
+    public AnxietyTestResult saveAssessment(AnxietyTestResult request) {
+        // Create a new assessment and set all required fields
+        AnxietyTestResult assessment = new AnxietyTestResult();
+        assessment.setUserId(request.getUserId());
+        assessment.setUsername(request.getUsername());
+        assessment.setAverageScore(request.getAverageScore());
+        assessment.setStatus(request.getStatus());
+        assessment.setAnxietyCategory(request.getAnxietyCategory());
+        assessment.setRecommendedResources(request.getRecommendedResources());
 
-        AnxietyTestResult result = new AnxietyTestResult();
-        result.setAverageScore(averageScore);
-        result.setStatus(status);
+        return repository.save(assessment);
+    }
 
-        return repository.save(result);
+    public Optional<String> findByUserId(String userId) {
+        return repository.findAnxietyCategoryByUserId(userId);
     }
 }
