@@ -10,6 +10,8 @@ const fadeInVariant = {
 
 const DepressionTest = () => {
     const username = sessionStorage.getItem("username");
+    const userId = sessionStorage.getItem("userId"); // Assuming userId is stored in sessionStorage after login.
+
     const questions = [
         "How would you rate your overall happiness in the past two weeks?",
         "How confident do you feel about yourself and your abilities?",
@@ -27,6 +29,9 @@ const DepressionTest = () => {
         Array(questions.length).fill(0) // Default slider value is 0
     );
 
+    const [depressionCategory, setDepressionCategory] = useState("");
+    const [recommendedResources, setRecommendedResources] = useState([]);
+
     const handleSliderChange = (index, value) => {
         const updatedResponses = [...responses];
         updatedResponses[index] = parseInt(value, 10);
@@ -34,24 +39,39 @@ const DepressionTest = () => {
     };
 
     const handleSubmit = async () => {
-        if (!username) {
-            toast.error("Username not found. Please log in.");
+        if (!username || !userId) {
+            toast.error("User information not found. Please log in.");
             return;
         }
 
         const totalScore = responses.reduce((sum, value) => sum + value, 0);
         const averageScore = totalScore / responses.length;
-        const status =
-            averageScore >= 7
-                ? "You are good with your mental health"
-                : averageScore >= 4
-                ? "Moderate and needs to improve"
-                : "Low and need treatment";
+
+        let status = "";
+        let resources = [];
+
+        // Categorizing depression based on average score
+        if (averageScore >= 7) {
+            status = "You are good with your mental health";
+            resources = ["General wellness tips", "Mindfulness exercises", "Self-care routines"];
+        } else if (averageScore >= 4) {
+            status = "Moderate, needs improvement";
+            resources = ["Exercise routines", "Breathing techniques", "Healthy eating habits"];
+        } else {
+            status = "Low, needs treatment";
+            resources = ["Professional therapy", "Support groups", "Mindfulness and meditation"];
+        }
+
+        setDepressionCategory(status);
+        setRecommendedResources(resources);
 
         const payload = {
+            userId, // Including userId in the payload
             username,
             averageScore,
             status,
+            depressionCategory: status,
+            recommendedResources: resources,
         };
 
         try {
@@ -68,9 +88,7 @@ const DepressionTest = () => {
 
             const data = await response.json();
             toast.success(
-                `Assessment submitted! Average Score: ${data.averageScore.toFixed(
-                    2
-                )}, Status: ${data.status}`
+                `Assessment submitted! Average Score: ${data.averageScore.toFixed(2)}, Status: ${data.status}`
             );
         } catch (error) {
             console.error("Error submitting assessment:", error);
@@ -95,7 +113,10 @@ const DepressionTest = () => {
                 <p className="font-semibold text-center mb-5">
                     Please answer the following questions by sliding the bar to indicate your response.
                 </p>
-                <div className="font-semibold" style={{ maxWidth: "600px", margin: "0 auto", textAlign: "left" }}>
+                <div
+                    className="font-semibold"
+                    style={{ maxWidth: "600px", margin: "0 auto", textAlign: "left" }}
+                >
                     {questions.map((question, index) => (
                         <div key={index} style={{ marginBottom: "30px" }}>
                             <p>
@@ -122,6 +143,7 @@ const DepressionTest = () => {
                         </div>
                     ))}
                 </div>
+
                 <div className="text-center mt-5">
                     <button
                         className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"

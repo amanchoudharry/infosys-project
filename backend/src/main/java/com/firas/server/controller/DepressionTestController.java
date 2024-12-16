@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/depression-test")
@@ -24,6 +25,18 @@ public class DepressionTestController {
             return ResponseEntity.ok(assessment);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Collections.singletonMap("message", e.getMessage()));
+        }
+    }
+
+    @GetMapping("/category/{userId}")
+    public ResponseEntity<?> getDepressionCategory(@PathVariable String userId) {
+        Optional<String> result = depressionTestService.findByUserId(userId);
+
+        if (result.isPresent()) {
+            String testResult = result.get();
+            return ResponseEntity.ok().body(testResult);
+        } else {
+            return ResponseEntity.status(404).body("User not found or no test results available.");
         }
     }
 }

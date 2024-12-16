@@ -9,6 +9,9 @@ const fadeInVariant = {
 };
 
 const AnxietyTest = () => {
+    const username = sessionStorage.getItem("username");
+    const userId = sessionStorage.getItem("userId"); // Assuming userId is stored in sessionStorage after login.
+
     const questions = [
         "How often do you feel nervous or on edge?",
         "How frequently do you experience feelings of fear without a clear reason?",
@@ -21,9 +24,13 @@ const AnxietyTest = () => {
         "How much is your anxiety affecting your daily life, work, or relationships?",
         "How often do you feel exhausted from dealing with your anxiety?",
     ];
+
     const [responses, setResponses] = useState(
-        Array(questions.length).fill(0) // Default slider value is 5
+        Array(questions.length).fill(0) // Default slider value is 0
     );
+
+    const [anxietyCategory, setAnxietyCategory] = useState("");
+    const [recommendedResources, setRecommendedResources] = useState([]);
 
     const handleSliderChange = (index, value) => {
         const updatedResponses = [...responses];
@@ -32,13 +39,46 @@ const AnxietyTest = () => {
     };
 
     const handleSubmit = async () => {
-        console.log("Submitting responses:", responses);
+        if (!username || !userId) {
+            toast.error("User information not found. Please log in.");
+            return;
+        }
+
+        const totalScore = responses.reduce((sum, value) => sum + value, 0);
+        const averageScore = totalScore / responses.length;
+
+        let status = "";
+        let resources = [];
+
+        // Categorizing anxiety based on average score
+        if (averageScore >= 7) {
+            status = "Low Anxiety";
+            resources = ["Relaxation techniques", "Healthy lifestyle habits", "Positive affirmations"];
+        } else if (averageScore >= 4) {
+            status = "Moderate Anxiety";
+            resources = ["Mindfulness exercises", "Physical activities like yoga", "Support groups"];
+        } else {
+            status = "High Anxiety - Seek Help";
+            resources = ["Cognitive behavioral therapy", "Professional counseling", "Stress management resources"];
+        }
+
+        setAnxietyCategory(status);
+        setRecommendedResources(resources);
+
+        const payload = {
+            userId,
+            username,
+            averageScore,
+            status,
+            anxietyCategory: status,
+            recommendedResources: resources,
+        };
 
         try {
             const response = await fetch("http://localhost:8080/api/anxiety-test", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(responses),
+                body: JSON.stringify(payload),
             });
 
             if (!response.ok) {
@@ -47,10 +87,11 @@ const AnxietyTest = () => {
             }
 
             const data = await response.json();
-            toast.info(`Average Score: ${data.averageScore.toFixed(2)}, Status: ${data.status}`);
-            toast.success("Test Submitted successfully!");
+            toast.success(
+                `Assessment submitted! Average Score: ${data.averageScore.toFixed(2)}, Status: ${data.status}`
+            );
         } catch (error) {
-            console.error("Error submitting responses:", error);
+            console.error("Error submitting assessment:", error);
             toast.error(error.message || "An error occurred. Please try again.");
         }
     };
