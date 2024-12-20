@@ -11,6 +11,10 @@ const RegisterPage = () => {
   const [role, setRole] = useState('user');
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+  const validatePasswordFormat = (password) => {
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
+  };
 
   const validateForm = () => {
     const validationErrors = {};
@@ -25,8 +29,11 @@ const RegisterPage = () => {
     // Validate password
     if (!password.trim()) {
       validationErrors.password = 'Password is required.';
-    } else if (password.length < 6) {
-      validationErrors.password = 'Password must be at least 6 characters long.';
+    } else if (password.length < 8) {
+      validationErrors.password = 'Password must be at least 8 characters long.';
+    } else if (!validatePasswordFormat(password)) {
+      validationErrors.password =
+        'Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 digit, 1 special character, and must be at least 8 characters long.';
     }
 
     // Validate role
@@ -48,7 +55,7 @@ const RegisterPage = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:8080/api/users/register', {
+      const response = await axios.post('http://localhost:8080/api/register', {
         username,
         password,
         role,
