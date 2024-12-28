@@ -17,4 +17,5 @@ public class Appointment {
     private String status = "Pending";
     private String acceptedByProfessionalName; // Store professional username
     private String userId;
+    private String phone;
 }

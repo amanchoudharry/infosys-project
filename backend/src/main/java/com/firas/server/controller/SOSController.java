@@ -51,7 +51,7 @@ public class SOSController {
             }
 
             String messageBody = String.format(
-                    "SOS! I am %s. You are my Emergency Contact and I have an emergency at Location: Latitude: %s, Longitude: %s. Please assist immediately. " +
+                    "SOS! I am %s. You are my Emergency Contact and I have an emergency at this Location: Latitude: %s, Longitude: %s. Please assist immediately. " +
                             "View the location on the map: https://www.google.com/maps?q=%s,%s",
                     sosRequest.getUsername(),
                     sosRequest.getLatitude(), sosRequest.getLongitude(),

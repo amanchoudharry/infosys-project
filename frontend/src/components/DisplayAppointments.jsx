@@ -29,6 +29,7 @@ const noAppointmentsVariant = {
 const DisplayAppointments = () => {
     const [appointments, setAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [loadingId, setLoadingId] = useState(null); // Track the button being processed
 
     const fetchAppointments = async () => {
         try {
@@ -43,6 +44,7 @@ const DisplayAppointments = () => {
 
     const acceptAppointment = async (id) => {
         const professionalName = sessionStorage.getItem('username'); // Retrieve the logged-in professional's username
+        setLoadingId(id); // Set the current button as loading
         try {
             const response = await axios.put(
                 `${BASE_URL}/api/appointments/${id}?status=Accepted&professionalName=${professionalName}`
@@ -58,6 +60,8 @@ const DisplayAppointments = () => {
         } catch (error) {
             console.error(error);
             toast.error('Failed to accept appointment.');
+        } finally {
+            setLoadingId(null); // Reset the loading state
         }
     };
 
@@ -110,9 +114,14 @@ const DisplayAppointments = () => {
                                         <div className="mt-5 flex gap-5">
                                             <button
                                                 onClick={() => acceptAppointment(appointment.id)}
-                                                className="bg-green-500 hover:bg-green-600 p-2 text-white"
+                                                disabled={loadingId === appointment.id} // Disable the button while loading
+                                                className={`p-2 text-white ${
+                                                    loadingId === appointment.id
+                                                        ? 'bg-gray-400 cursor-not-allowed'
+                                                        : 'bg-green-500 hover:bg-green-600'
+                                                }`}
                                             >
-                                                Accept
+                                                {loadingId === appointment.id ? 'Processing...' : 'Accept'}
                                             </button>
                                             <button
                                                 onClick={() => deleteAppointment(appointment.id)}

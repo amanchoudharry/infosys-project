@@ -18,6 +18,7 @@ const emptyStateVariant = {
 
 const ProfessionalSessions = () => {
     const [sessions, setSessions] = useState([]);
+    const [loadingSessionId, setLoadingSessionId] = useState(null); // State to track loading button
 
     useEffect(() => {
         const fetchSessions = async () => {
@@ -35,6 +36,7 @@ const ProfessionalSessions = () => {
     }, []);
 
     const handleAccept = async (id) => {
+        setLoadingSessionId(id); // Set loading state for the current session ID
         const professionalName = sessionStorage.getItem('username'); // Fetch professional username
 
         try {
@@ -51,6 +53,8 @@ const ProfessionalSessions = () => {
             }
         } catch (error) {
             toast.error('Error accepting appointment');
+        } finally {
+            setLoadingSessionId(null); // Reset loading state
         }
     };
 
@@ -95,9 +99,14 @@ const ProfessionalSessions = () => {
                                 <div className="mt-5 flex gap-5">
                                     <button
                                         onClick={() => handleAccept(session.id)}
-                                        className="bg-green-500 hover:bg-green-600 p-2 text-white"
+                                        className={`p-2 text-white ${
+                                            loadingSessionId === session.id
+                                                ? 'bg-gray-500 cursor-not-allowed'
+                                                : 'bg-green-500 hover:bg-green-600'
+                                        }`}
+                                        disabled={loadingSessionId === session.id}
                                     >
-                                        Accept
+                                        {loadingSessionId === session.id ? 'Accepting...' : 'Accept'}
                                     </button>
                                     <button
                                         onClick={() => handleDelete(session.id)}

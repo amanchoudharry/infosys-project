@@ -1,9 +1,15 @@
 package com.firas.server.controller;
 
+import com.firas.server.config.TwilioConfig;
 import com.firas.server.model.ServiceRequest;
 import com.firas.server.repository.ServiceRepository;
+import com.firas.server.service.EmailService;
 import com.firas.server.service.SessionService;
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,10 +28,37 @@ public class ServiceController {
     @Autowired
     private ServiceRepository serviceRepository;
 
+    @Autowired
+    private EmailService emailService;
+    @Autowired
+    private TwilioConfig twilioConfig;
+
+    @Value("${twilio.fromPhoneNumber}")
+    private String fromPhoneNumber;
+
+    public ServiceController(TwilioConfig twilioConfig) {
+        // Initialize Twilio with the credentials from TwilioConfig
+        Twilio.init(twilioConfig.getAccountSid(), twilioConfig.getAuthToken());
+    }
+
     @PostMapping("/{type}")
     public ResponseEntity<?> handleServiceRequest(@PathVariable String type, @RequestBody ServiceRequest request) {
         request.setServiceType(type);
         serviceRepository.save(request);
+
+        // Send a confirmation email to the user
+        String subject = "Professional Service Request Received";
+        String body = "Dear " + request.getName() + ",\n\n" +
+                "We have received your service request for "+request.getServiceType()+" successfully. \nYou will receive another response once a professional has been assigned to your service.\n\n" +
+                "Thank you,\nTeam Mental Health";
+        emailService.sendEmail(request.getEmail(), subject, body);
+
+        Message message = Message.creator(
+                new PhoneNumber(request.getPhone()),  // Send SMS to contact's phone
+                new PhoneNumber(fromPhoneNumber),     // Twilio phone number
+                body
+        ).create();
+
         return ResponseEntity.status(HttpStatus.CREATED).body("Request submitted successfully");
     }
     // Fetch all sessions

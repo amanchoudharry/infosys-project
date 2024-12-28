@@ -14,12 +14,14 @@ const BookAppointment = () => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
+        phone: '',
         date: '',
         time: '',
         message: '',
     });
     const [errors, setErrors] = useState({});
     const [showForm, setShowForm] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false); // New state for submit button
     const userId = sessionStorage.getItem('userId');
 
     const handleInputChange = (e) => {
@@ -32,6 +34,11 @@ const BookAppointment = () => {
         const newErrors = {};
         if (!formData.name) newErrors.name = 'Name is required.';
         if (!formData.email) newErrors.email = 'Email is required.';
+        if (!formData.phone) {
+            newErrors.phone = 'Phone number is required.';
+        } else if (!/^\+[1-9]{1}[0-9]{3,14}$/.test(formData.phone)) {
+            newErrors.phone = 'Phone number must include a valid country code (e.g., +123456789).';
+        }
         if (!formData.date) newErrors.date = 'Date is required.';
         if (!formData.time) newErrors.time = 'Time is required.';
         return newErrors;
@@ -39,12 +46,14 @@ const BookAppointment = () => {
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
+
         const newErrors = validateForm();
         if (Object.keys(newErrors).length > 0) {
             setErrors(newErrors);
             return;
         }
 
+        setIsSubmitting(true); // Disable the submit button
         try {
             const response = await axios.post(`${BASE_URL}/api/appointments`, formData, {
                 headers: { userId: userId },
@@ -52,7 +61,7 @@ const BookAppointment = () => {
             if (response.status === 201) {
                 toast.success('Appointment booked successfully!');
                 setShowForm(false);
-                setFormData({ name: '', email: '', date: '', time: '', message: '' });
+                setFormData({ name: '', email: '', phone: '', date: '', time: '', message: '' });
             }
         } catch (error) {
             console.error(error);
@@ -63,6 +72,8 @@ const BookAppointment = () => {
             } else {
                 toast.error(`Error: ${error.message}`);
             }
+        } finally {
+            setIsSubmitting(false); // Re-enable the submit button
         }
     };
 
@@ -108,6 +119,18 @@ const BookAppointment = () => {
                                     {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
                                 </div>
                                 <div className="mb-4">
+                                    <label className="block text-gray-700">Phone (with country code)</label>
+                                    <input
+                                        type="tel"
+                                        name="phone"
+                                        value={formData.phone}
+                                        onChange={handleInputChange}
+                                        className="w-full px-4 py-2 border rounded-lg focus:outline-none"
+                                        placeholder="+91XXXXXXXX"
+                                    />
+                                    {errors.phone && <p className="text-red-500 text-sm">{errors.phone}</p>}
+                                </div>
+                                <div className="mb-4">
                                     <label className="block text-gray-700">Date</label>
                                     <input
                                         type="date"
@@ -148,9 +171,10 @@ const BookAppointment = () => {
                                     </button>
                                     <button
                                         type="submit"
-                                        className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                                        className={`px-4 py-2 rounded-lg text-white ${isSubmitting ? 'bg-gray-500' : 'bg-green-600 hover:bg-green-700'}`}
+                                        disabled={isSubmitting}
                                     >
-                                        Submit
+                                        {isSubmitting ? 'Saving...' : 'Submit'}
                                     </button>
                                 </div>
                             </form>

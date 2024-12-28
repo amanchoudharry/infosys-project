@@ -32,6 +32,7 @@ const ProfessionalSection = () => {
         setFormData({ ...formData, [name]: value });
     };
     const [formError, setFormError] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const handleFormSubmit = async (e) => {
         e.preventDefault();
@@ -45,9 +46,10 @@ const ProfessionalSection = () => {
             setFormError('Please fill all the required fields.');
             return; // Prevent form submission
         }
-        
+
         // If all fields are filled, clear the error and proceed with form submission
         setFormError('');
+        setLoading(true); // Start loading
 
         try {
             const response = await axios.post(
@@ -66,7 +68,9 @@ const ProfessionalSection = () => {
             } else {
                 toast.error('An error occurred. Please try again.');
             }
-        }
+        } finally {
+                     setLoading(false); // End loading
+                 }
     };
 
     return (
@@ -121,7 +125,7 @@ const ProfessionalSection = () => {
                             {modalType === 'psychiatric' && 'Psychiatric Support'}
                             {modalType === 'therapy' && 'Therapy Session'}
                         </h2>
-                        
+
                         {/* Error message */}
                         {formError && (
                             <div className="mb-4 text-red-500 text-center">
@@ -182,9 +186,14 @@ const ProfessionalSection = () => {
                                 </button>
                                 <button
                                     type="submit"
-                                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+                                    disabled={loading} // Disable while loading
+                                    className={`px-4 py-2 rounded-lg ${
+                                        loading
+                                            ? 'bg-gray-500 text-gray-300'
+                                            : 'bg-green-600 text-white hover:bg-green-700'
+                                    }`}
                                 >
-                                    Submit
+                                    {loading ? 'Saving...' : 'Submit'}
                                 </button>
                             </div>
                         </form>
