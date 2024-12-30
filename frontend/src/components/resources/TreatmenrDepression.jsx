@@ -168,7 +168,7 @@ const TreatmentDepression = () => {
                 resources.map((resource, index) => (
                     <div
                         key={index}
-                        className="resource-card flex justify-center ml-[35%] items-center"
+                        className="resource-card flex justify-center ml-[35%] gap-28 items-center"
                     >
                         <div className="resource-img w-full">
                             <img

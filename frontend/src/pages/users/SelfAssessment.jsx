@@ -172,7 +172,7 @@ const SelfAssessment = () => {
           <h1 className="text-4xl">
             Attend the <b>Self Assessment</b>
           </h1>
-          <div className="grid grid-cols-2 grid-rows-4 gap-10">
+          <div className="grid grid-cols-2 grid-rows-3 gap-10">
             {[
               { name: "Depression Test", path: "/user/assessment/test1" },
               { name: "Anxiety Test", path: "/user/assessment/test2" },
@@ -180,12 +180,10 @@ const SelfAssessment = () => {
               { name: "Bipolar Test", path: "/user/assessment/test4" },
               { name: "Addiction Test", path: "/user/assessment/test5" },
               { name: "PTSD Test", path: "/user/assessment/test6" },
-              { name: "Disorder Test", path: "/user/assessment/test7" },
-              { name: "Postpartum Depression Test", path: "/user/assessment/test8" },
             ].map((test, index) => (
               <Link to={test.path} key={index}>
                 <motion.div
-                  className="bg-black bg-opacity-30 p-2 gap-4 flex justify-center font-bold items-center text-white rounded-2xl"
+                  className="bg-black bg-opacity-30 px-20 py-2 gap-6 flex justify-center font-bold items-center text-white rounded-2xl"
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.95 }}
                 >

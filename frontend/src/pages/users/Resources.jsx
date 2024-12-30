@@ -52,12 +52,10 @@ const Resources = () => {
   const resourceList = [
     { name: "Treatment for Anxiety", link: "#anxiety" },
     { name: "Treatment for Depression", link: "#depression" },
-    { name: "Treatment for ADHD", link: "#anxiety" },
-    { name: "Treatment for Bipolar", link: "#anxiety" },
-    { name: "Treatment for Addiction", link: "#anxiety" },
-    { name: "Treatment for PSTD", link: "#anxiety" },
-    { name: "Treatment for Disorder", link: "#anxiety" },
-    { name: "Treatment for Postmartum Depression", link: "#anxiety" }
+    { name: "Treatment for ADHD", link: "#ADHD" },
+    { name: "Treatment for Bipolar", link: "#Bipolar" },
+    { name: "Treatment for Addiction", link: "#Addiction" },
+    { name: "Treatment for PSTD", link: "#PSTD" },
   ]
 
   const userId = sessionStorage.getItem('userId');
@@ -140,11 +138,11 @@ const Resources = () => {
             <motion.p className="text-2xl text-gray-800 font-medium" variants={fadeInLeft}>
               A Holistic Guide to Care
             </motion.p>
-            <motion.div className='grid grid-rows-2 mt-5 grid-cols-4 gap-20'>
+            <motion.div className='grid grid-rows-2 mt-5 grid-cols-3 gap-20'>
               {
                 resourceList.map((item, index) => {
                   return (
-                    <div className='bg-[#b7fdd3] font-bold pt-5 text-center rounded-2xl text-lg shadow-md shadow-green-700'>
+                    <div className='bg-[#b7fdd3] font-bold px-2 py-4 text-center rounded-2xl text-lg shadow-md shadow-green-700'>
                       <a href={item.link}>{item.name}</a>
                     </div>
                   )
@@ -154,18 +152,18 @@ const Resources = () => {
           </div>
         </motion.section>
 
-        <div id='anxiety' className='mt-16 flex flex-col items-center justify-center'>
+        <div id='resources' className='mt-28 mb-8 flex flex-col items-center justify-center'>
           <h1 className='text-4xl font-medium'>Hey, <b>{username}</b>! Attend Our Self-Assessment Test </h1>
           <Link to={'/user/assessment'}><button className='m-3 p-3 bg-green-600 hover:bg-green-700 rounded-xl text-white font-semibold'>Self Assessment Test</button></Link>
         </div>
 
         <motion.div className='w-[68%] -ml-24 p-5 pb-10'>
-          <div id='depression' className='flex flex-col justify-center items-center'>
+          <div id='anxiety' className='flex flex-col justify-center items-center'>
             <h1 className='text-2xl ml-40 mt-5 font-semibold'>Peaceful Pathways to Overcome Anxiety</h1>
             <div className='border-t-2 border-gray-800 border-opacity-50  w-full h-1 text-center mt-2 ml-[68%]'></div>
             <TreatmentAxiety />
           </div>
-          <div className='flex flex-col justify-center items-center'>
+          <div id='depression' className='flex flex-col justify-center items-center'>
             <h1 className='text-2xl ml-12 mt-16 font-semibold'>Depression Management Guide</h1>
             <div className='border-t-2 border-gray-800 border-opacity-50  w-full h-1 text-center mt-2 ml-[68%]'></div>
             <TreatmentDepression />
@@ -173,24 +171,24 @@ const Resources = () => {
         </motion.div>
 
         <motion.div className='w-[68%] -ml-24 p-5 pb-10'>
-          <div className='flex flex-col justify-center items-center'>
+          <div id='ADHD' className='flex flex-col justify-center items-center'>
             <h1 className='text-2xl -ml-28 mt-5 font-semibold'>Treatment for ADHD</h1>
             <div className='border-t-2 border-gray-800 border-opacity-50  w-full h-1 text-center mt-2 ml-[70%]'></div>
             <BetterSleep />
           </div>
-          <div className='flex flex-col justify-center items-center'>
+          <div id='Bipolar' className='flex flex-col justify-center items-center'>
             <h1 className='text-2xl ml-20 mt-16 font-semibold'>Treatment for Bipolar</h1>
             <div className='border-t-2 border-gray-800 border-opacity-50  w-full h-1 text-center mt-2 ml-[70%]'></div>
             <Nutrition />
           </div>
         </motion.div>
         <motion.div className='w-[68%] -ml-24 p-5 pb-10'>
-          <div className='flex flex-col justify-center items-center'>
+          <div id='Addiction' className='flex flex-col justify-center items-center'>
             <h1 className='text-2xl ml-4 mt-5 font-semibold'>Treatment for Addiction</h1>
             <div className='border-t-2 border-gray-800 border-opacity-50  w-full h-1 text-center mt-2 ml-[70%]'></div>
             <Emotional />
           </div>
-          <div className='flex flex-col justify-center items-center'>
+          <div id='PSTD' className='flex flex-col justify-center items-center'>
             <h1 className='text-2xl -ml-44 mt-16 font-semibold'>Treatment for PSTD</h1>
             <div className='border-t-2 border-gray-800 border-opacity-50  w-full h-1 text-center mt-2 ml-[70%]'></div>
             <Therapy />

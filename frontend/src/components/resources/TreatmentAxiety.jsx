@@ -171,7 +171,7 @@ const TreatmentAnxiety = () => {
               <img
                 src={resource.image}
                 alt={resource.title}
-                className="w-full h-auto object-cover rounded-md"
+                className="w-72 h-60 object-cover rounded-md"
               />
             </div>
             <div className="resource-content w-full flex flex-col gap-5 ml-5">
