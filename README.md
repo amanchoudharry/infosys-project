@@ -42,15 +42,13 @@ MongoDB (local or cloud instance)
 git clone https://github.com/yourusername/emergency-mental-wellbeing.git
 cd emergency-mental-wellbeing
 #### 2. Install frontend dependencies:
-npm install
 cd frontend
+npm install
 #### 3. Start the React.js frontend:
 npm start
-#### 4. Configure and run the backend:
-Update MongoDB connection in application.properties.
-#### 5. Build and run the Spring Boot application:
+#### 4. Build and run the Spring Boot application:
 ./mvnw spring-boot:run
-#### 6. Access the application:
+#### 5. Access the application:
 Open http://localhost:3000 in your browser.
 
 ## 🛡️ Security and Privacy
