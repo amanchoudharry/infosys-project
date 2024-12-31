@@ -1,5 +1,4 @@
 # Emergency and Mental Well-Being Website 🌟
----
 ## 🌐 Overview
 This project is a comprehensive Emergency and Mental Well-Being Website designed to provide immediate support and long-term assistance for mental health and emergency needs. The platform enables users to connect with professionals, access self-assessment tools, and explore resources tailored to their well-being.
 
