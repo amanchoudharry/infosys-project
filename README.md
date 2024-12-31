@@ -39,10 +39,10 @@ Java JDK 17+
 MongoDB (local or cloud instance)
 ### Steps
 #### 1. Clone the repository:
-git clone https://github.com/yourusername/emergency-mental-wellbeing.git
+git clone https://github.com/yourusername/emergency-mental-wellbeing.git  
 cd emergency-mental-wellbeing
 #### 2. Install frontend dependencies:
-cd frontend
+cd frontend  
 npm install
 #### 3. Start the React.js frontend:
 npm start
